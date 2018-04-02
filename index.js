@@ -4,6 +4,7 @@ module.exports = function (src) {
     var locals = {};
     var implicit = {};
     var exported = {};
+    var _exported = {};
     var implicitProps = {};
     
     if (typeof src === 'string') {
@@ -61,6 +62,7 @@ module.exports = function (src) {
                 ;
                 if (isLeft0 || isLeft1) {
                     exported[node.name] = keyOf(node).length;
+                    _exported[node.name] = node;
                 }
             }
             if (!exported[node.name]
@@ -96,10 +98,15 @@ module.exports = function (src) {
     }
     return {
         locals: localScopes,
+        _locals: locals,
         globals: {
             implicit: objectKeys(implicit),
+            _implicit: implicit,
+
             implicitProperties: props,
-            exported: objectKeys(exported)
+
+            exported: objectKeys(exported),
+            _exported: _exported
         }
     };
     
